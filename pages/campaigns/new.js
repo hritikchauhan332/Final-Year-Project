@@ -1,81 +1,99 @@
-import React, { Component } from 'react';
-import { Form, Button, Input, Message } from 'semantic-ui-react';
-import Layout from '../../components/Layout';
-import factory from '../../ethereum/factory';
-import web3 from '../../ethereum/web3';
-import { Link, Router } from '../../routes';
-
+import React, { Component } from "react";
+import { Form, Button, Input, Message, Icon } from "semantic-ui-react";
+import Layout from "../../components/Layout";
+import factory from "../../ethereum/factory";
+import web3 from "../../ethereum/web3";
+import { Link, Router } from "../../routes";
+import { button_primary, name_color } from "../palette";
 
 class CampaignNew extends Component {
   state = {
-    eventName: '',
-    minimumContribution: '',
-    target: '',
-    errorMessage: '',
-    loading: false
+    eventName: "",
+    minimumContribution: "",
+    target: "",
+    errorMessage: "",
+    loading: false,
   };
 
-  onSubmit = async event => {
+  onSubmit = async (event) => {
     event.preventDefault();
 
-    this.setState({ loading: true, errorMessage: '' });
+    this.setState({ loading: true, errorMessage: "" });
 
     try {
       const accounts = await web3.eth.getAccounts();
       await factory.methods
-        .createCampaign(this.state.minimumContribution, this.state.target, this.state.eventName)
+        .createCampaign(
+          this.state.minimumContribution,
+          this.state.target,
+          this.state.eventName
+        )
         .send({
-          from: accounts[0]
+          from: accounts[0],
         });
 
-        Router.pushRoute('/');
+      Router.pushRoute("/");
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
-
+    this.props.handleToggleModal();
     this.setState({ loading: false });
   };
 
   render() {
     return (
-      <Layout>
-        <h3>Create a Campaign</h3>
+      <div style={{ padding: "2rem" }}>
+        <h3 style={{ color: name_color }}>Create New Campaign</h3>
 
-        <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
+        <Form
+          onSubmit={this.onSubmit}
+          error={!!this.state.errorMessage}
+          style={{ padding: "1rem" }}
+        >
           <Form.Field>
             <label>Event Name</label>
-              <Input
-                value={this.state.eventName}
-                onChange={event =>
-                  this.setState({ eventName: event.target.value })}
-              />
-            <br></br>
+            <Input
+              icon="user"
+              iconPosition="left"
+              value={this.state.eventName}
+              onChange={(event) =>
+                this.setState({ eventName: event.target.value })
+              }
+            />
+          </Form.Field>
+          <Form.Field>
             <label>Minimum Contribution</label>
-              <Input
-                label="wei"
-                labelPosition="right"
-                value={this.state.minimumContribution}
-                onChange={event =>
-                  this.setState({ minimumContribution: event.target.value })}
-              />
-
+            <Input
+              icon="money bill alternate outline"
+              iconPosition="left"
+              value={this.state.minimumContribution}
+              onChange={(event) =>
+                this.setState({ minimumContribution: event.target.value })
+              }
+            />
+          </Form.Field>
+          <Form.Field>
             <label>Target</label>
-              <Input
-                label="target"
-                labelPosition="right"
-                value={this.state.target}
-                onChange={event =>
-                  this.setState({ target: event.target.value })}
-              />
-            
+            <Input
+              icon="target"
+              iconPosition="left"
+              value={this.state.target}
+              onChange={(event) =>
+                this.setState({ target: event.target.value })
+              }
+            />
           </Form.Field>
 
           <Message error header="Oops!" content={this.state.errorMessage} />
-          <Button loading={this.state.loading} primary>
+          <Button
+            loading={this.state.loading}
+            primary
+            style={{ backgroundColor: button_primary }}
+          >
             Create!
           </Button>
         </Form>
-      </Layout>
+      </div>
     );
   }
 }

@@ -1,13 +1,43 @@
 import React, { Component } from "react";
-import { Card, Grid, Button, Table } from "semantic-ui-react";
+import {
+  Card,
+  Grid,
+  Button,
+  Table,
+  Icon,
+  Dimmer,
+  Popup,
+} from "semantic-ui-react";
 import axios from "axios";
 import Layout from "../../components/Layout";
 import Campaign from "../../ethereum/campaign";
 import web3 from "../../ethereum/web3";
-import ContributeForm from "../../components/ContributeForm";
-import { Link } from "../../routes";
+import SidebarComponent from "./SidebarComponent";
+import { button_primary, getRandomColors, randomCardColors } from "../palette";
+import ContributeModal from "./ContributeModal";
 
 class CampaignShow extends Component {
+  state = {
+    visible: false,
+    showModal: false,
+  };
+
+  handleToggleModal = () => {
+    this.setState((prev) => ({
+      showModal: !prev.showModal,
+    }));
+  };
+
+  handleSidebarVisible = () => {
+    this.setState({
+      visible: !this.state.visible,
+    });
+  };
+
+  handleViewRequests = () => {
+    window.open(`/campaigns/${this.props.address}/requests`, "_blank");
+  };
+
   static async getInitialProps(props) {
     const campaign = Campaign(props.query.address);
     const summary = await campaign.methods.getSummary().call();
@@ -39,43 +69,119 @@ class CampaignShow extends Component {
       minimumContribution,
       requestsCount,
       approversCount,
+      eventName,
+      targetAmount,
     } = this.props;
-
+    const cardStyle = {
+      overflowWrap: "break-word",
+      width: "20rem",
+      height: "12rem",
+      padding: "1rem",
+    };
     const items = [
       {
-        header: manager,
+        header: eventName,
+        meta: "Name Of Compaign",
+        description: (
+          <p style={{ marginTop: "1rem" }}>
+            It's the name of the current compaign
+          </p>
+        ),
+        style: {
+          ...cardStyle,
+          backgroundColor: randomCardColors[0],
+        },
+      },
+      {
+        header: `${manager.substring(0, 16)}...`,
         meta: "Address of Manager",
-        description:
-          "The manager created this campaign and can create requests to withdraw money",
-        style: { overflowWrap: "break-word" },
+        description: (
+          <p style={{ marginTop: "1rem" }}>
+            The manager created this campaign and can create requests to
+            withdraw money
+          </p>
+        ),
+
+        style: {
+          ...cardStyle,
+          backgroundColor: randomCardColors[1],
+        },
       },
       {
         header: minimumContribution,
         meta: "Minimum Contribution (wei)",
-        description:
-          "You must contribute at least this much wei to become an approver",
+        description: (
+          <p style={{ marginTop: "1rem" }}>
+            You must contribute at least this much wei to become an approver
+          </p>
+        ),
+        style: {
+          ...cardStyle,
+          backgroundColor: randomCardColors[2],
+        },
       },
       {
         header: requestsCount,
         meta: "Number of Requests",
-        description:
-          "A request tries to withdraw money from the contract. Requests must be approved by approvers",
+        description: (
+          <p style={{ marginTop: "1rem" }}>
+            A request tries to withdraw money from the contract. Requests must
+            be approved by approvers
+          </p>
+        ),
+
+        style: {
+          ...cardStyle,
+          backgroundColor: randomCardColors[3],
+        },
       },
       {
         header: approversCount,
         meta: "Number of Approvers",
-        description:
-          "Number of people who have already donated to this campaign",
+        description: (
+          <p style={{ marginTop: "1rem" }}>
+            Number of people who have already donated to this campaign
+          </p>
+        ),
+        style: {
+          ...cardStyle,
+          backgroundColor: randomCardColors[4],
+        },
       },
       {
         header: web3.utils.fromWei(balance, "ether"),
         meta: "Campaign Balance (ether)",
-        description:
-          "The balance is how much money this campaign has left to spend.",
+        description: (
+          <p style={{ marginTop: "1rem" }}>
+            The balance is how much money this campaign has left to spend.
+          </p>
+        ),
+        style: {
+          ...cardStyle,
+          backgroundColor: randomCardColors[5],
+        },
+      },
+      {
+        header: targetAmount,
+        meta: "Target Amount",
+        description: (
+          <p style={{ marginTop: "1rem" }}>
+            It's the target amount which is needed to be raised.
+          </p>
+        ),
+        style: {
+          ...cardStyle,
+          backgroundColor: randomCardColors[2],
+        },
       },
     ];
 
-    return <Card.Group items={items} />;
+    return (
+      <Card.Group
+        items={items}
+        style={{ display: "flex", justifyContent: "center" }}
+      />
+    );
   }
 
   renderTableData() {
@@ -94,44 +200,59 @@ class CampaignShow extends Component {
   }
 
   render() {
-    //console.log(this.props.transcationsList)
-
     return (
-      <Layout>
-        <h3>Campaign Show</h3>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={10}>{this.renderCards()}</Grid.Column>
-            <Grid.Column width={6}>
-              <ContributeForm address={this.props.address} />
-            </Grid.Column>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Column>
-              <Link route={`/campaigns/${this.props.address}/requests`}>
-                <a>
-                  <Button primary>View Requests</Button>
-                </a>
-              </Link>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-
-        <h3>Transactions for this Contract</h3>
-
-        <Table inverted>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>From</Table.HeaderCell>
-              <Table.HeaderCell>Success</Table.HeaderCell>
-              <Table.HeaderCell>Timestamp</Table.HeaderCell>
-              <Table.HeaderCell>Amount Transfer(WEI)</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>{this.renderTableData()}</Table.Body>
-        </Table>
-      </Layout>
+      <React.Fragment>
+        <SidebarComponent
+          visible={this.state.visible}
+          handleShowContributeModal={this.handleToggleModal}
+          handleViewRequests={this.handleViewRequests}
+        />
+        <Layout>
+          <div
+            style={{
+              padding: "1rem 2rem 2rem 2rem",
+              marginLeft: this.state.visible ? "6rem" : "",
+            }}
+          >
+            <h2>Campaign Details</h2>
+            <Grid style={{ marginTop: "2rem" }}>
+              <Grid.Row>
+                <Grid.Column width={24}>{this.renderCards()}</Grid.Column>
+              </Grid.Row>
+            </Grid>
+            <Popup
+              trigger={
+                <Button
+                  onClick={this.handleSidebarVisible}
+                  circular
+                  icon={this.state.visible ? "minus" : "add"}
+                  style={{
+                    position: "fixed",
+                    right: "5%",
+                    bottom: "10%",
+                    zIndex: "1",
+                    padding: "1.5rem",
+                    backgroundColor: button_primary,
+                    color: "white",
+                  }}
+                />
+              }
+              position="top center"
+              content={this.state.visible ? "Less" : "More"}
+              on={["hover"]}
+              style={{
+                backgroundColor: "#000080",
+                color: "white",
+              }}
+            />
+          </div>
+        </Layout>
+        <ContributeModal
+          address={this.props.address}
+          showModal={this.state.showModal}
+          handleToggleModal={this.handleToggleModal}
+        />
+      </React.Fragment>
     );
   }
 }
