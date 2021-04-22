@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Icon, Menu, Sidebar } from "semantic-ui-react";
+import { Icon, Menu, Sidebar } from "semantic-ui-react";
 
 class SidebarComponent extends Component {
   render() {
@@ -7,7 +7,6 @@ class SidebarComponent extends Component {
       visible,
       handleShowContributeModal,
       handleViewRequests,
-      handleShowTable,
     } = this.props;
 
     return (
@@ -27,10 +26,6 @@ class SidebarComponent extends Component {
         <Menu.Item as="a" onClick={handleViewRequests}>
           <Icon name="eye" />
           View Requests
-        </Menu.Item>
-        <Menu.Item as="a" onClick={handleShowTable}>
-          <Icon name="money" />
-          Transactions
         </Menu.Item>
       </Sidebar>
     );

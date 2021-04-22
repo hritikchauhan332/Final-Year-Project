@@ -67,3 +67,12 @@ export const popupStyle = {
   width: "12rem",
   textAlign: "center",
 };
+export const floatingButtonStyle = {
+  position: "fixed",
+  right: "5%",
+  bottom: "10%",
+  zIndex: "1",
+  padding: "1.5rem",
+  backgroundColor: button_primary,
+  color: "white",
+};

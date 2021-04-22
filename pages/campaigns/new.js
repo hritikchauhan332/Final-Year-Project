@@ -62,7 +62,7 @@ class CampaignNew extends Component {
             />
           </Form.Field>
           <Form.Field>
-            <label>Minimum Contribution</label>
+            <label>Minimum Contribution (Wei)</label>
             <Input
               icon="money bill alternate outline"
               iconPosition="left"
