@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import { Icon, Menu, Sidebar } from "semantic-ui-react";
+import { Link } from "../../routes";
 
 class SidebarComponent extends Component {
   render() {
-    const {
-      visible,
-      handleShowContributeModal,
-      handleViewRequests,
-    } = this.props;
+    const { visible, handleShowContributeModal, address } = this.props;
 
     return (
       <Sidebar
@@ -23,10 +20,12 @@ class SidebarComponent extends Component {
           <Icon name="asl" />
           Contribute
         </Menu.Item>
-        <Menu.Item as="a" onClick={handleViewRequests}>
-          <Icon name="eye" />
-          View Requests
-        </Menu.Item>
+        <Link route={`/campaigns/${address}/requests`}>
+          <Menu.Item as="a" onClick={() => {}}>
+            <Icon name="eye" />
+            View Requests
+          </Menu.Item>
+        </Link>
       </Sidebar>
     );
   }

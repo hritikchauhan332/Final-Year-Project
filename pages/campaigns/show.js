@@ -29,10 +29,6 @@ class CampaignShow extends Component {
     });
   };
 
-  handleViewRequests = () => {
-    window.open(`/campaigns/${this.props.address}/requests`, "_blank");
-  };
-
   static async getInitialProps(props) {
     const campaign = Campaign(props.query.address);
     const summary = await campaign.methods.getSummary().call();
@@ -72,8 +68,7 @@ class CampaignShow extends Component {
         <SidebarComponent
           visible={this.state.visible}
           handleShowContributeModal={this.handleToggleModal}
-          handleViewRequests={this.handleViewRequests}
-          handleShowTable={this.handleShowTable}
+          address={this.props.address}
         />
         <Layout>
           <div
@@ -121,7 +116,7 @@ class CampaignShow extends Component {
           showModal={this.state.showModal}
           handleToggleModal={this.handleToggleModal}
         />
-        <TableComponent transcationsList={this.props.transcationsList || []} />)
+        <TableComponent transcationsList={this.props.transcationsList || []} />
       </React.Fragment>
     );
   }
