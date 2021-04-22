@@ -7,6 +7,7 @@ class SidebarComponent extends Component {
       visible,
       handleShowContributeModal,
       handleViewRequests,
+      handleShowTable,
     } = this.props;
 
     return (
@@ -27,7 +28,7 @@ class SidebarComponent extends Component {
           <Icon name="eye" />
           View Requests
         </Menu.Item>
-        <Menu.Item as="a">
+        <Menu.Item as="a" onClick={handleShowTable}>
           <Icon name="money" />
           Transactions
         </Menu.Item>

@@ -73,7 +73,7 @@ class CampaignNew extends Component {
             />
           </Form.Field>
           <Form.Field>
-            <label>Target</label>
+            <label>Target Amount (Wei)</label>
             <Input
               icon="target"
               iconPosition="left"

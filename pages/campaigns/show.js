@@ -5,8 +5,8 @@ import {
   Button,
   Table,
   Icon,
-  Dimmer,
   Popup,
+  Accordion,
 } from "semantic-ui-react";
 import axios from "axios";
 import Layout from "../../components/Layout";
@@ -20,6 +20,8 @@ class CampaignShow extends Component {
   state = {
     visible: false,
     showModal: false,
+    activeIndex: 0,
+    showTable: false,
   };
 
   handleToggleModal = () => {
@@ -198,7 +200,16 @@ class CampaignShow extends Component {
       );
     });
   }
-
+  handleClick = () => {
+    this.setState({
+      activeIndex: (this.state.activeIndex + 1) % 2,
+    });
+  };
+  handleShowTable = () => {
+    this.setState({
+      showTable: !this.state.showTable,
+    });
+  };
   render() {
     return (
       <React.Fragment>
@@ -206,6 +217,7 @@ class CampaignShow extends Component {
           visible={this.state.visible}
           handleShowContributeModal={this.handleToggleModal}
           handleViewRequests={this.handleViewRequests}
+          handleShowTable={this.handleShowTable}
         />
         <Layout>
           <div
@@ -252,6 +264,43 @@ class CampaignShow extends Component {
           showModal={this.state.showModal}
           handleToggleModal={this.handleToggleModal}
         />
+        {this.state.showTable && (
+          <Accordion
+            style={
+              this.state.visible
+                ? { marginLeft: "12rem", width: "75%" }
+                : { marginLeft: "10rem", width: "80%" }
+            }
+          >
+            <Accordion.Title
+              active={this.state.activeIndex === 0}
+              index={0}
+              onClick={this.handleClick}
+              style={
+                this.state.activeIndex !== 0 ? { paddingBottom: "2rem" } : {}
+              }
+            >
+              <Icon name="dropdown" />
+              Transaction Table
+            </Accordion.Title>
+            <Accordion.Content
+              active={this.state.activeIndex === 0}
+              style={{ paddingBottom: "2rem" }}
+            >
+              <Table inverted>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>From</Table.HeaderCell>
+                    <Table.HeaderCell>Success</Table.HeaderCell>
+                    <Table.HeaderCell>Timestamp</Table.HeaderCell>
+                    <Table.HeaderCell>Amount Transfer(WEI)</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>{this.renderTableData()}</Table.Body>
+              </Table>
+            </Accordion.Content>
+          </Accordion>
+        )}
       </React.Fragment>
     );
   }

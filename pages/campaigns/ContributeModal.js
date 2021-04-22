@@ -12,7 +12,10 @@ class ContributeModal extends Component {
         onClose={handleToggleModal}
         style={{ width: "36rem" }}
       >
-        <ContributeForm address={address} />
+        <ContributeForm
+          address={address}
+          handleToggleModal={handleToggleModal}
+        />
       </Modal>
     );
   }

@@ -21,6 +21,7 @@ import {
   Popup,
 } from "semantic-ui-react";
 import { getRandomColors, randomAvatarColors } from "./palette";
+import { Link } from "../routes";
 
 class ContainerBasicCard extends Component {
   state = {
@@ -75,14 +76,14 @@ class ContainerBasicCard extends Component {
             <p style={textStyle}>{CampaignName}</p>
           </div>
           <div style={buttonContainerStyle}>
-            <Button
-              style={{ ...buttonStyle, border: `1.5px solid ${themeColor}` }}
-              onClick={() => {
-                window.open(`/campaigns/${address}`, "_blank");
-              }}
-            >
-              <Icon name="eye" style={iconStyle} />
-            </Button>
+            <Link route={`/campaigns/${address}`}>
+              <Button
+                style={{ ...buttonStyle, border: `1.5px solid ${themeColor}` }}
+                onClick={() => {}}
+              >
+                <Icon name="eye" style={iconStyle} />
+              </Button>
+            </Link>
             <Popup
               trigger={
                 <CopyToClipboard text={address}>

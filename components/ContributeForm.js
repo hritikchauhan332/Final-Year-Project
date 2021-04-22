@@ -29,7 +29,7 @@ class ContributeForm extends Component {
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
-
+    this.props.handleToggleModal();
     this.setState({ loading: false, value: "" });
   };
   render() {

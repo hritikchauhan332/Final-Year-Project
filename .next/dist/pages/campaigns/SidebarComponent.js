@@ -50,7 +50,8 @@ var SidebarComponent = function (_Component) {
       var _props = this.props,
           visible = _props.visible,
           handleShowContributeModal = _props.handleShowContributeModal,
-          handleViewRequests = _props.handleViewRequests;
+          handleViewRequests = _props.handleViewRequests,
+          handleShowTable = _props.handleShowTable;
 
       return _react2.default.createElement(_semanticUiReact.Sidebar, {
         as: _semanticUiReact.Menu,
@@ -62,31 +63,31 @@ var SidebarComponent = function (_Component) {
         width: "thin",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 13
+          lineNumber: 14
         }
       }, _react2.default.createElement(_semanticUiReact.Menu.Item, { as: "a", onClick: handleShowContributeModal, __source: {
           fileName: _jsxFileName,
-          lineNumber: 22
+          lineNumber: 23
         }
       }, _react2.default.createElement(_semanticUiReact.Icon, { name: "asl", __source: {
           fileName: _jsxFileName,
-          lineNumber: 23
+          lineNumber: 24
         }
       }), "Contribute"), _react2.default.createElement(_semanticUiReact.Menu.Item, { as: "a", onClick: handleViewRequests, __source: {
           fileName: _jsxFileName,
-          lineNumber: 26
+          lineNumber: 27
         }
       }, _react2.default.createElement(_semanticUiReact.Icon, { name: "eye", __source: {
           fileName: _jsxFileName,
-          lineNumber: 27
+          lineNumber: 28
         }
-      }), "View Requests"), _react2.default.createElement(_semanticUiReact.Menu.Item, { as: "a", __source: {
+      }), "View Requests"), _react2.default.createElement(_semanticUiReact.Menu.Item, { as: "a", onClick: handleShowTable, __source: {
           fileName: _jsxFileName,
-          lineNumber: 30
+          lineNumber: 31
         }
       }, _react2.default.createElement(_semanticUiReact.Icon, { name: "money", __source: {
           fileName: _jsxFileName,
-          lineNumber: 31
+          lineNumber: 32
         }
       }), "Transactions"));
     }
@@ -96,4 +97,4 @@ var SidebarComponent = function (_Component) {
 }(_react.Component);
 
 exports.default = SidebarComponent;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzXFxjYW1wYWlnbnNcXFNpZGViYXJDb21wb25lbnQuanMiXSwibmFtZXMiOlsiUmVhY3QiLCJDb21wb25lbnQiLCJCdXR0b24iLCJJY29uIiwiTWVudSIsIlNpZGViYXIiLCJTaWRlYmFyQ29tcG9uZW50IiwicHJvcHMiLCJ2aXNpYmxlIiwiaGFuZGxlU2hvd0NvbnRyaWJ1dGVNb2RhbCIsImhhbmRsZVZpZXdSZXF1ZXN0cyJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxBQUFPLEFBQVM7Ozs7QUFDaEIsQUFBUyxBQUFRLEFBQU0sQUFBTTs7Ozs7OztJLEFBRXZCOzs7Ozs7Ozs7Ozs2QkFDSzttQkFLSCxLQUxHLEFBS0U7VUFMRixBQUVMLGlCQUZLLEFBRUw7VUFGSyxBQUdMLG1DQUhLLEFBR0w7VUFISyxBQUlMLDRCQUpLLEFBSUwsQUFHRjs7NkJBQ0UsQUFBQztBQUFELEFBQ00sQUFDSjttQkFGRixBQUVZLEFBQ1Y7Y0FIRixBQUdPLEFBQ0w7a0JBSkYsQUFLRTtrQkFMRixBQU1FO2lCQU5GLEFBTVcsQUFDVDtlQVBGLEFBT1E7O29CQVBSO3NCQUFBLEFBU0U7QUFURjtBQUNFLE9BREYsa0JBU0csY0FBRCxzQkFBQSxBQUFNLFFBQUssSUFBWCxBQUFjLEtBQUksU0FBbEIsQUFBMkI7b0JBQTNCO3NCQUFBLEFBQ0U7QUFERjt5QkFDRSxBQUFDLHVDQUFLLE1BQU4sQUFBVztvQkFBWDtzQkFERixBQUNFO0FBQUE7VUFWSixBQVNFLEFBSUEsK0JBQUMsY0FBRCxzQkFBQSxBQUFNLFFBQUssSUFBWCxBQUFjLEtBQUksU0FBbEIsQUFBMkI7b0JBQTNCO3NCQUFBLEFBQ0U7QUFERjt5QkFDRSxBQUFDLHVDQUFLLE1BQU4sQUFBVztvQkFBWDtzQkFERixBQUNFO0FBQUE7VUFkSixBQWFFLEFBSUEsa0NBQUMsY0FBRCxzQkFBQSxBQUFNLFFBQUssSUFBWCxBQUFjO29CQUFkO3NCQUFBLEFBQ0U7QUFERjt5QkFDRSxBQUFDLHVDQUFLLE1BQU4sQUFBVztvQkFBWDtzQkFERixBQUNFO0FBQUE7VUFuQk4sQUFDRSxBQWlCRSxBQU1MOzs7OztBQUdILEEsQUFuQytCOztrQkFtQy9CLEFBQWUiLCJmaWxlIjoiU2lkZWJhckNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiJDOi9Vc2Vycy9zaGVzaC9maW5hbC1wcm9qZWN0In0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzXFxjYW1wYWlnbnNcXFNpZGViYXJDb21wb25lbnQuanMiXSwibmFtZXMiOlsiUmVhY3QiLCJDb21wb25lbnQiLCJCdXR0b24iLCJJY29uIiwiTWVudSIsIlNpZGViYXIiLCJTaWRlYmFyQ29tcG9uZW50IiwicHJvcHMiLCJ2aXNpYmxlIiwiaGFuZGxlU2hvd0NvbnRyaWJ1dGVNb2RhbCIsImhhbmRsZVZpZXdSZXF1ZXN0cyIsImhhbmRsZVNob3dUYWJsZSJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxBQUFPLEFBQVM7Ozs7QUFDaEIsQUFBUyxBQUFRLEFBQU0sQUFBTTs7Ozs7OztJLEFBRXZCOzs7Ozs7Ozs7Ozs2QkFDSzttQkFNSCxLQU5HLEFBTUU7VUFORixBQUVMLGlCQUZLLEFBRUw7VUFGSyxBQUdMLG1DQUhLLEFBR0w7VUFISyxBQUlMLDRCQUpLLEFBSUw7VUFKSyxBQUtMLHlCQUxLLEFBS0wsQUFHRjs7NkJBQ0UsQUFBQztBQUFELEFBQ00sQUFDSjttQkFGRixBQUVZLEFBQ1Y7Y0FIRixBQUdPLEFBQ0w7a0JBSkYsQUFLRTtrQkFMRixBQU1FO2lCQU5GLEFBTVcsQUFDVDtlQVBGLEFBT1E7O29CQVBSO3NCQUFBLEFBU0U7QUFURjtBQUNFLE9BREYsa0JBU0csY0FBRCxzQkFBQSxBQUFNLFFBQUssSUFBWCxBQUFjLEtBQUksU0FBbEIsQUFBMkI7b0JBQTNCO3NCQUFBLEFBQ0U7QUFERjt5QkFDRSxBQUFDLHVDQUFLLE1BQU4sQUFBVztvQkFBWDtzQkFERixBQUNFO0FBQUE7VUFWSixBQVNFLEFBSUEsK0JBQUMsY0FBRCxzQkFBQSxBQUFNLFFBQUssSUFBWCxBQUFjLEtBQUksU0FBbEIsQUFBMkI7b0JBQTNCO3NCQUFBLEFBQ0U7QUFERjt5QkFDRSxBQUFDLHVDQUFLLE1BQU4sQUFBVztvQkFBWDtzQkFERixBQUNFO0FBQUE7VUFkSixBQWFFLEFBSUEsa0NBQUMsY0FBRCxzQkFBQSxBQUFNLFFBQUssSUFBWCxBQUFjLEtBQUksU0FBbEIsQUFBMkI7b0JBQTNCO3NCQUFBLEFBQ0U7QUFERjt5QkFDRSxBQUFDLHVDQUFLLE1BQU4sQUFBVztvQkFBWDtzQkFERixBQUNFO0FBQUE7VUFuQk4sQUFDRSxBQWlCRSxBQU1MOzs7OztBQUdILEEsQUFwQytCOztrQkFvQy9CLEFBQWUiLCJmaWxlIjoiU2lkZWJhckNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiJDOi9Vc2Vycy9zaGVzaC9maW5hbC1wcm9qZWN0In0=
