@@ -17,6 +17,7 @@ export const getItemCards = (props) => {
     approversCount,
     eventName,
     targetAmount,
+    eventDescription,
   } = props;
 
   const items = [
@@ -31,6 +32,19 @@ export const getItemCards = (props) => {
       style: {
         ...cardStyle,
         backgroundColor: randomCardColors[0],
+      },
+    },
+    {
+      header: "Description",
+      meta: "Event Description",
+      description: (
+        <p style={{ marginTop: "1rem" }}>
+          {eventDescription}
+        </p>
+      ),
+      style: {
+        ...cardStyle,
+        backgroundColor: randomCardColors[4],
       },
     },
     {

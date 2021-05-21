@@ -38,8 +38,6 @@ class CampaignShow extends Component {
       "&startblock=0&endblock=99999999&sort=asc&apikey=92DFXGGSPQWKX9GT5IDJCM3YM8FZ9XSM5S";
     const transcations = await axios.get(etherscanAddress);
 
-    console.log(summary);
-
     return {
       address: props.query.address,
       minimumContribution: summary[0],
@@ -49,6 +47,7 @@ class CampaignShow extends Component {
       manager: summary[4],
       eventName: summary[5],
       targetAmount: summary[6],
+      eventDescription: summary[7],
       transcationsList: transcations.data.result,
     };
   }

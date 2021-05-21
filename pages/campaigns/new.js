@@ -11,6 +11,7 @@ class CampaignNew extends Component {
     eventName: "",
     minimumContribution: "",
     target: "",
+    eventDescription: "",
     errorMessage: "",
     loading: false,
   };
@@ -26,7 +27,8 @@ class CampaignNew extends Component {
         .createCampaign(
           this.state.minimumContribution,
           this.state.target,
-          this.state.eventName
+          this.state.eventName,
+          this.state.eventDescription
         )
         .send({
           from: accounts[0],
@@ -58,6 +60,17 @@ class CampaignNew extends Component {
               value={this.state.eventName}
               onChange={(event) =>
                 this.setState({ eventName: event.target.value })
+              }
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Event Description</label>
+            <Input
+              icon="user"
+              iconPosition="left"
+              value={this.state.eventDescription}
+              onChange={(event) =>
+                this.setState({ eventDescription: event.target.value })
               }
             />
           </Form.Field>
