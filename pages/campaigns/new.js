@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Form, Button, Input, Message, Icon } from "semantic-ui-react";
-import Layout from "../../components/Layout";
 import factory from "../../ethereum/factory";
 import web3 from "../../ethereum/web3";
-import { Link, Router } from "../../routes";
+import { Router } from "../../routes";
 import { button_primary, name_color } from "../palette";
 
 class CampaignNew extends Component {
@@ -32,7 +31,7 @@ class CampaignNew extends Component {
           from: accounts[0],
         });
 
-      Router.pushRoute("/");
+      Router.pushRoute("/dashboard");
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
