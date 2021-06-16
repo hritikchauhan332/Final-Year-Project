@@ -49,6 +49,7 @@ class CampaignShow extends Component {
       manager: summary[4],
       eventName: summary[5],
       targetAmount: summary[6],
+      eventDescription: summary[7],
       transcationsList: transcations.data.result,
     };
   }
