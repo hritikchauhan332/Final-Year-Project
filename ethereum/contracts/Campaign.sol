@@ -6,9 +6,10 @@ contract CampaignFactory {
     function createCampaign(
         uint256 minimum,
         uint256 target,
-        string name
+        string name,
+        string description
     ) public {
-        address newCampaign = new Campaign(minimum, target, name, msg.sender);
+        address newCampaign = new Campaign(minimum, target, name, description, msg.sender);
         deployedCampaigns.push(newCampaign);
     }
 
@@ -34,6 +35,7 @@ contract Campaign {
     mapping(address => bool) public approvers;
     uint256 public approversCount;
     string public contractName;
+    string public contractDescription;
 
     modifier restricted() {
         require(msg.sender == manager);
@@ -44,12 +46,14 @@ contract Campaign {
         uint256 minimum,
         uint256 target,
         string nameOfContract,
+        string _contractDescription,
         address creator
     ) public {
         manager = creator;
         minimumContribution = minimum;
         targetAmount = target;
         contractName = nameOfContract;
+        contractDescription = _contractDescription;
     }
 
     function contribute() public payable {
@@ -107,7 +111,8 @@ contract Campaign {
             uint256,
             address,
             string,
-            uint256
+            uint256,
+            string
         )
     {
         return (
@@ -117,7 +122,8 @@ contract Campaign {
             approversCount,
             manager,
             contractName,
-            targetAmount
+            targetAmount,
+            contractDescription
         );
     }
 

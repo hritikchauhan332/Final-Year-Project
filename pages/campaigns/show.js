@@ -1,142 +1,126 @@
 import React, { Component } from "react";
-import { Card, Grid, Button, Table} from 'semantic-ui-react';
+import { Card, Grid, Button, Popup } from "semantic-ui-react";
 import axios from "axios";
-import Layout from '../../components/Layout';
-import Campaign from '../../ethereum/campaign';
-import web3 from '../../ethereum/web3';
-import ContributeForm from '../../components/ContributeForm';
-import { Link } from '../../routes';
+import Layout from "../../components/Layout";
+import Campaign from "../../ethereum/campaign";
+import SidebarComponent from "./SidebarComponent";
+import ContributeModal from "./ContributeModal";
+import { getItemCards } from "../helper/showHelper";
+import { floatingButtonStyle } from "../helper/helper";
+import TableComponent from "./TableComponent";
 
 class CampaignShow extends Component {
-    static async getInitialProps(props) {
-        const campaign = Campaign(props.query.address);
-        const summary = await campaign.methods.getSummary().call();
-        const etherscanAddress = 'https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=' + props.query.address + '&startblock=0&endblock=99999999&sort=asc&apikey=92DFXGGSPQWKX9GT5IDJCM3YM8FZ9XSM5S'
-        const transcations = await axios.get(etherscanAddress)
+  state = {
+    visible: false,
+    showModal: false,
+    activeIndex: 0,
+    showTable: false,
+  };
 
-        console.log(summary);
+  handleToggleModal = () => {
+    this.setState((prev) => ({
+      showModal: !prev.showModal,
+    }));
+  };
 
-        return{
-            address: props.query.address,
-            minimumContribution: summary[0],
-            balance: summary[1],
-            requestsCount: summary[2],
-            approversCount: summary[3],
-            manager: summary[4],
-            eventName: summary[5],
-            targetAmount: summary[6],
-            transcationsList: transcations.data.result
-        };
-    }
+  handleSidebarVisible = () => {
+    this.setState({
+      visible: !this.state.visible,
+    });
+  };
 
-    renderCards() {
-        const {
-            balance,
-            manager,
-            minimumContribution,
-            requestsCount,
-            approversCount
-          } = this.props;
-      
-          const items = [
-            {
-              header: manager,
-              meta: 'Address of Manager',
-              description:
-                'The manager created this campaign and can create requests to withdraw money',
-              style: { overflowWrap: 'break-word' }
-            },
-            {
-              header: minimumContribution,
-              meta: 'Minimum Contribution (wei)',
-              description:
-                'You must contribute at least this much wei to become an approver'
-            },
-            {
-              header: requestsCount,
-              meta: 'Number of Requests',
-              description:
-                'A request tries to withdraw money from the contract. Requests must be approved by approvers'
-            },
-            {
-              header: approversCount,
-              meta: 'Number of Approvers',
-              description:
-                'Number of people who have already donated to this campaign'
-            },
-            {
-              header: web3.utils.fromWei(balance, 'ether'),
-              meta: 'Campaign Balance (ether)',
-              description:
-                'The balance is how much money this campaign has left to spend.'
-            }
-          ];
-      
-          return <Card.Group items={items} />; 
-    }
+  static async getInitialProps(props) {
+    const campaign = Campaign(props.query.address);
+    const summary = await campaign.methods.getSummary().call();
+    const etherscanAddress =
+      "https://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=" +
+      props.query.address +
+      "&startblock=0&endblock=99999999&sort=asc&apikey=92DFXGGSPQWKX9GT5IDJCM3YM8FZ9XSM5S";
+    const transcations = await axios.get(etherscanAddress);
 
-    renderTableData() {
-        return this.props.transcationsList.map((transcation) => {
-            const { from, isError, timeStamp, value} = transcation
-            const sucess = parseInt(isError)?'False':'True'
-            return (
-               <Table.Row>
-                   <Table.Cell>{ from }</Table.Cell>
-                   <Table.Cell>{sucess}</Table.Cell>
-                   <Table.Cell>{ timeStamp }</Table.Cell>
-                   <Table.Cell>{ value }</Table.Cell>
-               </Table.Row>
-            )
-         })
-    }
+    console.log(summary);
 
-    render() {
+    return {
+      address: props.query.address,
+      minimumContribution: summary[0],
+      balance: summary[1],
+      requestsCount: summary[2],
+      approversCount: summary[3],
+      manager: summary[4],
+      eventName: summary[5],
+      targetAmount: summary[6],
+      eventDescription: summary[7],
+      transcationsList: transcations.data.result,
+    };
+  }
 
-        //console.log(this.props.transcationsList)
+  renderCards() {
+    return (
+      <Card.Group
+        items={getItemCards(this.props)}
+        style={{ display: "flex" }}
+      />
+    );
+  }
 
-        return (
-            <Layout>
-                <h3>Campaign Show</h3>
-                <Grid>
-                    <Grid.Row>
-                        <Grid.Column width={10}>
-                            {this.renderCards()}
-                            
-                        </Grid.Column>
-                        <Grid.Column width={6}>
-                            <ContributeForm address={this.props.address} />
-                        </Grid.Column>
-                    </Grid.Row>
-
-                    <Grid.Row>
-                        <Grid.Column>
-                            <Link route={`/campaigns/${this.props.address}/requests`}>
-                                <a>
-                                    <Button primary>View Requests</Button>
-                                </a>
-                            </Link>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-
-                <h3>Transactions for this Contract</h3>
-
-                <Table inverted>
-                    <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>From</Table.HeaderCell>
-                        <Table.HeaderCell>Success</Table.HeaderCell>
-                        <Table.HeaderCell>Timestamp</Table.HeaderCell>
-                        <Table.HeaderCell>Amount Transfer(WEI)</Table.HeaderCell>
-                    </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {this.renderTableData()}
-                    </Table.Body>
-                </Table>
-            </Layout>
-        )
-    }
+  render() {
+    return (
+      <React.Fragment>
+        <SidebarComponent
+          visible={this.state.visible}
+          handleShowContributeModal={this.handleToggleModal}
+          address={this.props.address}
+        />
+        <Layout>
+          <div
+            style={{
+              fontSize: "2rem",
+              fontWeight: "500",
+              marginTop: "2rem",
+              marginLeft: "2rem",
+            }}
+          >
+            Campaign Details
+          </div>
+          <div
+            style={{
+              padding: "0rem 2rem 2rem 2rem",
+              marginLeft: "6rem",
+            }}
+          >
+            <Grid style={{ marginTop: "2rem" }}>
+              <Grid.Row>
+                <Grid.Column width={24}>{this.renderCards()}</Grid.Column>
+              </Grid.Row>
+            </Grid>
+            <Popup
+              trigger={
+                <Button
+                  onClick={this.handleSidebarVisible}
+                  circular
+                  icon={this.state.visible ? "minus" : "add"}
+                  style={floatingButtonStyle}
+                />
+              }
+              position="top center"
+              content={this.state.visible ? "Less" : "More"}
+              on={["hover"]}
+              style={{
+                backgroundColor: "#000080",
+                color: "white",
+              }}
+            />
+          </div>
+        </Layout>
+        <ContributeModal
+          address={this.props.address}
+          showModal={this.state.showModal}
+          handleToggleModal={this.handleToggleModal}
+        />
+        <TableComponent transcationsList={this.props.transcationsList || []} />
+      </React.Fragment>
+    );
+  }
 }
 
 export default CampaignShow;
